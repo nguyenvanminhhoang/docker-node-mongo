@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+    server:
+        container_name: demo-docker
+        build:
+            context: .
+            dockerfile: ./docker/Dockerfile
+        ports:
+            - 1412:3000
+        volumes:
+            - .:/usr/src/app
+        command: npm start
+        networks:
+            - my-network
+        environment:
+            PORT: 3000
+            URL: "mongodb://mongo:27017/demo-docker"
+    mongo:
+        container_name: mongo
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - ./data:/data/db
+        networks:
+            - my-network
+networks:
+    my-network:
